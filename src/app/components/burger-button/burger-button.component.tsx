@@ -14,9 +14,12 @@ export const BurgerButton: FunctionComponent<Props> = (props: Props) => {
   return (
     <button
       type="button"
-      className={useClassNames(`${props.className} burger-button hamburger hamburger--squeeze test`, {
-        'is-active': props.isActive
-      })}
+      className={useClassNames(
+        `${props.className} burger-button hamburger hamburger--squeeze`,
+        {
+          'is-active': props.isActive
+        }
+      )}
       onClick={props.onClick}
     >
       <span className="hamburger-box">

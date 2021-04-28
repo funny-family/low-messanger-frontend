@@ -8,7 +8,7 @@ export const App: FunctionComponent = () => {
   return (
     <div>
       <BurgerButton />
-      <h1 className="test">Oh hi mom!</h1>;
+      <h1 className="test">Oh hi mom!</h1>
     </div>
   );
 };
