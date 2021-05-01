@@ -1,4 +1,5 @@
 const airbnbRules  = {
+  'no-useless-return': 'off',
   'no-unsafe-finally': 'off',
   'no-fallthrough': 'off',
   'comma-dangle': ['error', 'never'],
