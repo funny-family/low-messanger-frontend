@@ -1,34 +1,19 @@
-/* eslint-disable react/prop-types */
-import React from 'react';
+import React, { createContext, ReactNode, ReactElement, useContext } from 'react';
+import { RootStore } from './root.store';
 
-import { TodoListStore } from './stores/todo-list.store';
-import { ChatStore } from './stores/chat.store';
+export const StoreContext = createContext<RootStore>({} as RootStore);
 
-type Stores = {
-  todoListStore: TodoListStore;
-  chatStore: ChatStore;
-};
+export type StoreComponent = React.FC<{
+  store?: RootStore;
+  children: ReactNode;
+}>;
 
-const todoListStore = new TodoListStore();
-const chatStore = new ChatStore();
-
-const StoreContext = React.createContext<Stores>({} as Stores);
+const rootStore = new RootStore();
 
 // eslint-disable-next-line
-export const StoreProvider: React.FC<React.PropsWithChildren<{}>> = (props) => {
-  return (
-    <StoreContext.Provider value={{ todoListStore, chatStore }}>
-      {props.children}
-    </StoreContext.Provider>
-  );
+export const StoreProvider: React.FC<React.PropsWithChildren<{}>> = (props): ReactElement => {
+  // eslint-disable-next-line
+  return <StoreContext.Provider value={rootStore}>{props.children}</StoreContext.Provider>;
 };
 
-export function useStore(): Stores {
-  return React.useContext(StoreContext);
-}
-
-// https://www.youtube.com/watch?v=1fgRc1lYIEU
-// https://www.youtube.com/watch?v=oQiMXRsO4o4
-// https://www.youtube.com/watch?v=nGZCL6Wd_zQ
-// https://www.youtube.com/watch?v=jn-L1SFYdIc
-// https://www.youtube.com/results?search_query=react+typescript+mobx
+export const useStore = (): RootStore => useContext(StoreContext);
