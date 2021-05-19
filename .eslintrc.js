@@ -1,7 +1,9 @@
 const airbnbRules  = {
+  'no-underscore-dangle': 'off',
   'no-useless-return': 'off',
   'no-unsafe-finally': 'off',
   'no-fallthrough': 'off',
+  'prefer-destructuring': 'off',
   'comma-dangle': ['error', 'never'],
   'import/prefer-default-export': 'off',
   'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
@@ -18,6 +20,8 @@ const reactRules = {
 };
 
 const typescriptRules = {
+  '@typescript-eslint/no-namespace': 'off',
+  '@typescript-eslint/lines-between-class-members': 'off',
   '@typescript-eslint/no-empty-interface': 'off',
   '@typescript-eslint/ban-ts-comment': process.env.NODE_ENV === 'production' ? 'error' : 'off'
 };
