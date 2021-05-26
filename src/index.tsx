@@ -1,17 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { StrictMode } from 'react';
+import { render } from 'react-dom';
 
 import { App } from './app';
 import { StoreProvider } from './app/store';
 
-import reportWebVitals from './reportWebVitals';
+import { reportWebVitals } from './reportWebVitals';
 
-ReactDOM.render(
-  <React.StrictMode>
+render(
+  <StrictMode>
     <StoreProvider>
       <App />
     </StoreProvider>
-  </React.StrictMode>,
+  </StrictMode>,
   document.getElementById('root')
 );
 
