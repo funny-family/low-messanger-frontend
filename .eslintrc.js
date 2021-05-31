@@ -26,6 +26,10 @@ const typescriptRules = {
   '@typescript-eslint/ban-ts-comment': process.env.NODE_ENV === 'production' ? 'error' : 'off'
 };
 
+const jsxA11y = {
+  'jsx-a11y/label-has-associated-control': 'off'
+};
+
 module.exports = {
   env: {
     browser: true,
@@ -56,6 +60,7 @@ module.exports = {
     'prettier'
   ],
   rules: {
+    ...jsxA11y,
     ...airbnbRules,
     ...reactRules,
     ...typescriptRules
