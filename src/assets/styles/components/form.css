@@ -1,0 +1,8 @@
+.form-border {
+  border-radius: 0.2rem;
+  border: 1px solid var(--light-gray-50);
+}
+
+.form-padding {
+  padding: 0.6em;
+}

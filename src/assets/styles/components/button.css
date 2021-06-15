@@ -1,48 +1,42 @@
 .btn {
-  display: inline-block;
-
-  padding: 0.68em 1.12em 0.68em 1.12em;
-  border: none;
-  border-radius: 100em;
-
-  font-size: 1rem;
-
-  line-height: 1.5;
-
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-align: center;
+  border-style: none;
+  border-radius: var(--border-radius);
+  padding: 0.6em 0.6em;
   cursor: pointer;
-
-  -webkit-user-select: none;
+  transition: all 0.2s;
 }
 
-/* ======================= btn-primary ======================= */
-
+/* =============== btn-primary ===============  */
 .btn-primary {
-  color: var(--white);
-
-  background-color: var(--blue);
-  box-shadow: rgb(0 0 0 / 25%) 0px 1px 20px;
-
-  transition: all 0.2s
+  color: var(--light-gray-0);
+  background-color: var(--light-blue-200);
 }
 
 .btn-primary:hover {
-  filter: contrast(128%);
+  background-color: var(--light-blue-100);
 }
 
-/*
-  button blur on scale fix (in Chrome):
-  https://www.blackpepper.co.uk/blog/blurry-css-animations-in-chrome-try-this
-*/
 .btn-primary:active {
-  font-size: 1rem;
+  background-color: var(--light-blue-300);
+}
+/* =============== btn-primary ===============  */
 
-  outline: 0 !important;
-  -moz-outline-style: none;
-  outline-style: none !important;
-  transform: scale(0.94);
-  backface-visibility: hidden;
-  filter: contrast(96%);
-  -webkit-font-smoothing: subpixel-antialiased;
+/* =============== btn-secondary ===============  */
+.btn-secondary {
+  color: var(--light-blue-200);
+  background-color: var(--light-blue-50);
 }
 
-/* ======================= btn-primary ======================= */
+.btn-secondary:hover {
+  color: var(--light-gray-0);
+  background-color: var(--light-blue-100);
+}
+
+.btn-secondary:active {
+  color: var(--light-gray-0);
+  background-color: var(--light-blue-200);
+}
+/* =============== btn-secondary ===============  */
