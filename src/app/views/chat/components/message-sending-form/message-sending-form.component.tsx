@@ -1,66 +1,101 @@
-import { FunctionComponent } from 'react';
-import { Formik } from 'formik';
+import { FC, KeyboardEvent, useRef } from 'react';
 
-import './message-sending-form.styles.css';
-import './message-sending-form.styles.layout.css';
+import { FormikErrors, FormikHelpers, useFormik } from 'formik';
 
 import { checkIfStringIsEmpty } from '../../../../utils/check-if-string-is-empty.function';
 
-export const MessageSendingForm: FunctionComponent = () => {
-  type MessageData = {
+import '../../../../../assets/styles/components/input.css';
+import '../../../../../assets/styles/components/button.css';
+import '../../../../../assets/styles/components/layout-container.css';
+
+import './message-sending-form.styles.css';
+
+export const MessageSendingForm: FC = () => {
+  interface MessageSendingFormValues {
     text: string;
     senderName: string;
+  }
+
+  const initialValues: MessageSendingFormValues = {
+    text: '',
+    senderName: 'mark1337' // need to be full field!
   };
 
-  const messageData: MessageData = {
-    text: '',
-    senderName: ''
+  const textMessageInputRef = useRef<HTMLTextAreaElement>(null);
+  const focusTextMessageInputOnClick = () => textMessageInputRef.current?.focus();
+
+  const scrollToMessageSendingForm = (): void => {
+    // THIS CODE IS FUCKING BAD DO NOT, HEAR ME!!! DO NOT DO LIKE THIS! ok....
+    const chatHistoryDomNode = document.querySelector('.chat-history');
+    chatHistoryDomNode?.scrollTo(chatHistoryDomNode.scrollHeight, chatHistoryDomNode.scrollHeight);
+  };
+
+  const onSubmit = (
+    message: MessageSendingFormValues,
+    actions: FormikHelpers<MessageSendingFormValues>
+  ) => {
+    const processedMessage = {
+      ...message,
+      text: message.text.trim()
+    };
+
+    actions.resetForm();
+    focusTextMessageInputOnClick();
+    scrollToMessageSendingForm();
+
+    console.log('message data:', processedMessage);
+  };
+
+  const validate = (message: MessageSendingFormValues) => {
+    const messageSendingFormErrors: FormikErrors<MessageSendingFormValues> = {};
+
+    const textValue = message.text;
+
+    const isTextValueEmpty = checkIfStringIsEmpty(textValue);
+    if (isTextValueEmpty) {
+      messageSendingFormErrors.text = '';
+
+      return messageSendingFormErrors;
+    }
+
+    return messageSendingFormErrors;
+  };
+
+  const messageSendingForm = useFormik({
+    initialValues,
+    onSubmit,
+    validate
+  });
+
+  const submitOnKeyPress = async (event: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      await messageSendingForm.submitForm();
+
+      setTimeout(() => {
+        messageSendingForm.resetForm();
+      }, 0);
+    }
   };
 
   return (
-    <Formik
-      initialValues={messageData}
-      onSubmit={(data) => {
-        const processedMessageData: MessageData = {
-          ...data,
-          text: data.text.trim()
-        };
-
-        console.log('processedMessageData:', processedMessageData);
-      }}
-      validate={(message) => {
-        const errors: Record<string, string> = {};
-
-        const isMessageTextEmpty = checkIfStringIsEmpty(message.text);
-        if (isMessageTextEmpty) {
-          errors.text = 'Message text cannot be empty!';
-        }
-
-        return errors;
-      }}
-    >
-      {({ values, errors, handleSubmit, handleChange }) => (
-        <>
-          <form onSubmit={handleSubmit} style={{ border: '2px solid blue', padding: '0.6em' }}>
-            <div>
-              <textarea
-                placeholder="Type message text here..."
-                name="text"
-                cols={30}
-                rows={4}
-                value={values.text}
-                onChange={handleChange}
-              />
-              <button type="submit">send message</button>
-            </div>
-          </form>
-
-          <div>
-            <pre>data: {JSON.stringify(values, null, 2)}</pre>
-            <pre>errors: {JSON.stringify(errors, null, 2)}</pre>
-          </div>
-        </>
-      )}
-    </Formik>
+    <form className="message-sending-form" onSubmit={messageSendingForm.handleSubmit}>
+      <div className="message-sending-form__text-field-container">
+        <textarea
+          className="inp message-sending-form__text-field"
+          placeholder="Type message text here..."
+          name="text"
+          cols={30}
+          rows={4}
+          ref={textMessageInputRef}
+          value={messageSendingForm.values.text}
+          onChange={messageSendingForm.handleChange}
+          onBlur={messageSendingForm.handleBlur}
+          onKeyPress={submitOnKeyPress}
+        />
+      </div>
+      <button type="submit" className="btn btn-primary message-sending-form__sbm-button">
+        Send
+      </button>
+    </form>
   );
 };
