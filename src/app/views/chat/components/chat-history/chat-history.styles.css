@@ -1,0 +1,13 @@
+.chat-history {
+  /*
+    this styles added because we have "chat-view__main" class
+    as parent of this element, so we just replacing scroll control from
+    "chat-view__main" element to "chat-history"
+  */
+  overflow: auto;
+  height: 100%;
+}
+
+.chat-history > * + * {
+  margin-top: 0.4em;
+}
