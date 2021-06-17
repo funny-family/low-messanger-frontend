@@ -1,5 +1,6 @@
-/* eslint-disable react/no-array-index-key */
-import { createRef, FC, useEffect, useRef } from 'react';
+import { FC, useEffect, useRef } from 'react';
+
+import { nanoid } from 'nanoid';
 
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../../../../store';
@@ -34,8 +35,8 @@ export const ChatHistory: FC = observer(() => {
       {/* {arr.map((v) => (
         <div key={v}>{v}</div>
       ))} */}
-      {chatMessageList.slice(0, 50).map((message, index) => (
-        <Message key={index} senderName={message.senderName} text={message.text} />
+      {chatMessageList.map((message) => (
+        <Message key={nanoid(10)} senderName={message.senderName} text={message.text} />
       ))}
     </div>
   );
