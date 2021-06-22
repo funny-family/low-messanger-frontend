@@ -1,3 +1,104 @@
 .chat-creation-form {
-  /* chat-creation-form */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  /* padding: 0 0.4em;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--light-gray-50); */
+}
+
+.chat-creation-form-container {
+  width: 100%;
+}
+
+.chat-creation-form button {
+  width: 100%;
+}
+
+.chat-creation-form__field {
+  width: 100%;
+}
+
+
+.chat-creation-form__error-text {
+  font-size: 1.08rem;
+  color: red;
+  position: relative;
+  left: 0.6em;
+  top: 0.4em;
+}
+
+.chat-creation-form__mg-top {
+  margin-top: 0.6em;
+}
+
+.checkbox-container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  /* margin-bottom: 12px; */
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.checkbox-container__label {
+  font-size: 1.1rem;
+}
+
+/* Hide the browser's default checkbox */
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.check-mark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: var(--light-gray-50);
+}
+
+/* On mouse-over, add a grey background color */
+.checkbox-container:hover input ~ .check-mark {
+  background-color: var(--light-blue-100);
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkbox-container input:checked ~ .check-mark {
+  background-color: var(--light-blue-200);
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.check-mark:after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.checkbox-container input:checked ~ .check-mark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.checkbox-container .check-mark:after {
+  left: 10px;
+  top: 5px;
+  width: 5px;
+  height: 12px;
+  border: solid var(--light-gray-0);
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
 }

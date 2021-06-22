@@ -1,92 +1,199 @@
-import { FunctionComponent } from 'react';
-import { Formik } from 'formik';
+import { FC, useState } from 'react';
 
-import './chat-creation-form.styles.css';
-import './chat-creation-form.styles.layout.css';
-import './chat-creation-form.styles.mobile.css';
+import { FormikErrors, FormikHelpers, useFormik } from 'formik';
 
 import { checkIfStringIsEmpty } from '../../utils/check-if-string-is-empty.function';
 
-export const ChatCreationForm: FunctionComponent = () => {
-  type ChatData = {
-    name: string;
-    password: string;
-    visitors: any[];
-  };
+import '../../../assets/styles/components/input.css';
+import '../../../assets/styles/components/button.css';
+import '../../../assets/styles/components/form.css';
 
-  const chatData: ChatData = {
+import './chat-creation-form.styles.css';
+
+export const ChatCreationForm: FC = () => {
+  const [isPasswordFieldsVisible, setPasswordFieldsVisibility] = useState(false);
+
+  interface ChatCreationFormValues {
+    name: string;
+    owner: string;
+    password?: string;
+    passwordConfirmation?: string;
+    visitors: any[];
+  }
+
+  const initialValues: ChatCreationFormValues = {
     name: '',
+    owner: 'nmf7834g387g3', // need to be real user!
     password: '',
+    passwordConfirmation: '',
     visitors: []
   };
 
+  const validate = (chat: ChatCreationFormValues) => {
+    const chatCreationFormErrors: FormikErrors<ChatCreationFormValues> = {};
+
+    const nameValue = chat.name;
+
+    const isNameValueEmpty = checkIfStringIsEmpty(nameValue);
+    if (isNameValueEmpty) {
+      chatCreationFormErrors.name = 'Name is required!';
+
+      return chatCreationFormErrors;
+    }
+
+    const currentNameLength = nameValue.length;
+    const nameMinLength = 4;
+    if (currentNameLength < nameMinLength) {
+      chatCreationFormErrors.name = `Name must be at least ${nameMinLength} characters!`;
+
+      return chatCreationFormErrors;
+    }
+
+    const passwordValue = chat.password;
+    const passwordConfirmationValue = chat.passwordConfirmation;
+
+    const isPasswordValueEmpty = checkIfStringIsEmpty(passwordValue!);
+    const isPasswordConfirmationValueEmpty = checkIfStringIsEmpty(passwordConfirmationValue!);
+
+    const currentPasswordLength = passwordValue!.length;
+    const passwordMinLength = 4;
+    if (!isPasswordValueEmpty && currentPasswordLength < passwordMinLength) {
+      chatCreationFormErrors.password = `Password must be at least ${nameMinLength} characters!`;
+
+      return chatCreationFormErrors;
+    }
+
+    if (!isPasswordValueEmpty && isPasswordConfirmationValueEmpty) {
+      chatCreationFormErrors.passwordConfirmation = 'Password confirmation is required!';
+
+      return chatCreationFormErrors;
+    }
+
+    if (!isPasswordConfirmationValueEmpty && isPasswordValueEmpty) {
+      chatCreationFormErrors.password = 'Password is required!';
+
+      return chatCreationFormErrors;
+    }
+
+    const doesPasswordsMatch = passwordValue === passwordConfirmationValue;
+    if (!doesPasswordsMatch) {
+      chatCreationFormErrors.passwordConfirmation = 'Passwords must match!';
+
+      return chatCreationFormErrors;
+    }
+
+    return chatCreationFormErrors;
+  };
+
+  const onSubmit = (
+    chat: ChatCreationFormValues,
+    actions: FormikHelpers<ChatCreationFormValues>
+  ) => {
+    console.log('ChatCreationFormValues:', chat);
+  };
+
+  const chatCreationForm = useFormik({
+    initialValues,
+    validate,
+    onSubmit
+  });
+
   return (
-    <Formik
-      initialValues={chatData}
-      onSubmit={(data) => {
-        const processedChatData: ChatData = {
-          ...data
-        };
-
-        // SEND THIS DATA TO SERVER!
-        console.log('processedChatData:', processedChatData);
-      }}
-      validate={(chat) => {
-        // TODO: improve errors type!
-        const errors: Record<string, string> = {};
-
-        const isChatNameEmpty = checkIfStringIsEmpty(chat.name);
-        if (isChatNameEmpty) {
-          errors.name = 'Chat require name!';
-        } else if (chat.name.length < 4) {
-          errors.name = 'Chat name must be more than 4 characters!';
-        }
-
-        const isChatPasswordEmpty = checkIfStringIsEmpty(chat.password);
-        if (!isChatPasswordEmpty && chat.password.length < 4) {
-          errors.password = 'Chat password requires at least 4 characters!';
-        }
-
-        return errors;
-      }}
-    >
-      {({ values, errors, handleSubmit, handleChange }) => (
-        <>
-          <form onSubmit={handleSubmit} style={{ border: '2px solid red', padding: '0.6em' }}>
-            <div>
-              <input
-                placeholder="Create name for chat"
-                type="text"
-                name="name"
-                value={values.name}
-                onChange={handleChange}
-              />
-              <button type="button">create chat room</button>
-            </div>
-
-            <div>
-              <input
-                placeholder="Create password for chat is need!"
-                type="password"
-                name="password"
-                value={values.password}
-                onChange={handleChange}
-              />
-              <button type="button">create password</button>
-              {/* <button type="button" onClick={() => setFieldValue('password', '')}>
-                skip
-              </button> */}
-            </div>
-
-            <button type="submit">fire chat 🔥</button>
-          </form>
-
+    <div className="chat-creation-form-container">
+      <form
+        className="chat-creation-form form-border form-padding"
+        onSubmit={chatCreationForm.handleSubmit}
+      >
+        <div>
           <div>
-            <pre>data: {JSON.stringify(values, null, 2)}</pre>
-            <pre>errors: {JSON.stringify(errors, null, 2)}</pre>
+            <input
+              className="inp chat-creation-form__field"
+              placeholder="Create name for chat"
+              type="text"
+              name="name"
+              value={chatCreationForm.values.name}
+              onChange={chatCreationForm.handleChange}
+              onBlur={chatCreationForm.handleBlur}
+            />
           </div>
-        </>
-      )}
-    </Formik>
+          {chatCreationForm.errors.name ? (
+            <div className="inp-error-text">{chatCreationForm.errors.name}</div>
+          ) : null}
+        </div>
+
+        <label className="checkbox-container chat-creation-form__mg-top">
+          <span className="checkbox-container__label">Add password</span>
+          <input
+            type="checkbox"
+            checked={isPasswordFieldsVisible}
+            onChange={() => {
+              setPasswordFieldsVisibility(!isPasswordFieldsVisible);
+              chatCreationForm.setFieldValue('password', '');
+              chatCreationForm.setFieldValue('passwordConfirmation', '');
+            }}
+          />
+          <span className="check-mark" />
+        </label>
+
+        {isPasswordFieldsVisible ? (
+          <div className="chat-creation-form__mg-top">
+            <div>
+              <div>
+                <input
+                  className="inp chat-creation-form__field"
+                  placeholder="Password here ..."
+                  type="password"
+                  name="password"
+                  value={chatCreationForm.values.password}
+                  onChange={chatCreationForm.handleChange}
+                  onBlur={chatCreationForm.handleBlur}
+                />
+              </div>
+              {chatCreationForm.errors.password ? (
+                <div className="inp-error-text">{chatCreationForm.errors.password}</div>
+              ) : null}
+            </div>
+
+            <div className="chat-creation-form__mg-top">
+              <div>
+                <input
+                  className="inp chat-creation-form__field"
+                  placeholder="Password confirmation here ..."
+                  type="password"
+                  name="passwordConfirmation"
+                  value={chatCreationForm.values.passwordConfirmation}
+                  onChange={chatCreationForm.handleChange}
+                  onBlur={chatCreationForm.handleBlur}
+                />
+              </div>
+              {chatCreationForm.errors.passwordConfirmation ? (
+                <div className="inp-error-text">{chatCreationForm.errors.passwordConfirmation}</div>
+              ) : null}
+            </div>
+
+            <button
+              className="btn btn-secondary chat-creation-form__mg-top"
+              type="button"
+              onClick={() => {
+                chatCreationForm.setErrors({});
+                chatCreationForm.setFieldValue('password', '', false);
+                chatCreationForm.setFieldValue('passwordConfirmation', '', false);
+              }}
+            >
+              Reset password
+            </button>
+          </div>
+        ) : null}
+
+        <button className="btn btn-primary chat-creation-form__mg-top" type="submit">
+          Create
+        </button>
+      </form>
+
+      <div>
+        <pre>chatCreationForm.values: {JSON.stringify(chatCreationForm.values, null, 2)}</pre>
+        <pre>chatCreationForm.errors: {JSON.stringify(chatCreationForm.errors, null, 2)}</pre>
+      </div>
+    </div>
   );
 };

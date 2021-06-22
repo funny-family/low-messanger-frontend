@@ -1,3 +1,39 @@
 .chat-view {
-  /* chat-view */
+  width: 100%;
+  height: 100%;
+}
+
+.chat-view__container {
+  display: flex;
+
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.chat-view__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.8em;
+}
+
+.chat-view__chat-name {
+  position: relative;
+  z-index: 3;
+}
+
+.chat-menu__button {
+  position: relative;
+  z-index: 3;
+}
+
+.chat-view__main {
+  height: 100%;
+
+  overflow: auto;
+}
+
+.chat-view__footer {
+  /* sml-footer */
 }

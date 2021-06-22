@@ -1,5 +1,5 @@
 import { FunctionComponent, ReactNode } from 'react';
-import { createSlot } from './slots';
+import { createSlot } from '../slots';
 
 import './stepper.styles.css';
 import './stepper.styles.layout.css';

@@ -1,7 +1,30 @@
 .user-creation-form {
-  /* user-creation-form */
+  width: 100%;
+  /* padding: 0.8em;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--light-gray-50); */
+}
+
+.user-creation-form-container {
+  width: 100%;
+}
+
+.user-creation-form input {
+  width: 100%;
+}
+
+.user-creation-form button {
+  width: 100%;
 }
 
 .user-creation-form__error-field {
-  color: red;
+  /* position: relative;
+  left: 0.6em;
+  top: 0.4em; */
+  /* margin-top: 0.4em;
+  margin-left: 0.6em; */
+}
+
+.user-creation-form__mg-top {
+  margin-top: 0.6em;
 }

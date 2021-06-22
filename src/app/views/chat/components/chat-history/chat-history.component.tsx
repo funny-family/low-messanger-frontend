@@ -19,8 +19,6 @@ export const ChatHistory: FC = observer(() => {
 
   const chatHistoryRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    console.log(chatHistoryRef.current?.scrollHeight);
-    console.log(chatHistoryRef);
     chatHistoryRef.current?.scrollTo(
       chatHistoryRef.current.scrollHeight,
       chatHistoryRef.current.scrollHeight

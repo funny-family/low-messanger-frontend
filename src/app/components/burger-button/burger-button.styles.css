@@ -1,5 +1,5 @@
 .burger-button {
-  --button-color: var(--black);
+  --button-color: var(--dark-blue-900);
 }
 
 .hamburger.is-active .hamburger-inner,

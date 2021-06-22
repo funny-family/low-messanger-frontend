@@ -1,1 +1,30 @@
-/*  */
+.chat-join-form {
+  /* padding: 0.4em;
+  border-radius: 0.2rem;
+  border: 1px solid var(--light-gray-50); */
+}
+
+.chat-join-form-container {
+  width: 100%;
+}
+
+.chat-join-form input {
+  width: 100%;
+}
+
+.chat-join-form button {
+  width: 100%;
+}
+
+.chat-join-form__error-field {
+  color: red;
+}
+
+.chat-join-form__field {
+  padding: 0.8em;
+  width: 400px;
+}
+
+.chat-join-form__mg-top {
+  margin-top: 0.6em;
+}

@@ -1,14 +1,21 @@
-import { FunctionComponent } from 'react';
-
-import './joining-chat.styles.css';
-import './joining-chat.styles.layout.css';
+import { FC } from 'react';
 
 import { ChatJoinForm } from '../../components/chat-join-form';
 
-export const JoiningChat: FunctionComponent = () => {
+import '../../../assets/styles/components/layout-container.css';
+import '../../../assets/styles/components/form.css';
+
+import './joining-chat.styles.css';
+
+export const JoiningChat: FC = () => {
   return (
-    <div className="joining-chat-view">
-      <ChatJoinForm />
+    <div className="layout-container-md">
+      <div className="joining-chat-view form-padding">
+        <ChatJoinForm
+          initialValues={{ entryKey: '', password: '' }}
+          visibleFields={{ entryKey: true, password: true }}
+        />
+      </div>
     </div>
   );
 };

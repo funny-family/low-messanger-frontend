@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import useClassNames from 'classnames';
 
 import './burger-button.styles.css';
@@ -10,7 +10,7 @@ interface Props {
   onClick?: <T = unknown, R = unknown>(args?: T) => R | void;
 }
 
-export const BurgerButton: FunctionComponent<Props> = (props: Props) => {
+export const BurgerButton: FC<Props> = (props: Props) => {
   return (
     <button
       type="button"
